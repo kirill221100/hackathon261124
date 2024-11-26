@@ -8,4 +8,4 @@ async def create_document(text: str, name: str, session: AsyncSession):
     doc = Document(name=name, text=text)
     session.add(doc)
     await session.commit()
-    return True
+    return doc
