@@ -23,7 +23,6 @@ MarkupSafe==3.0.2
 notion-client==2.2.1
 notion2md==2.9.0
 packaging==24.2
-psycopg2==2.9.10
 psycopg2-binary==2.9.10
 pydantic==2.10.2
 pydantic-settings==2.6.1
