@@ -5,8 +5,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi import UploadFile, HTTPException
-from db.utils.document import create_document
+from sqlalchemy.util import await_fallback
+
+from db.utils.document import create_document, get_document_by_id
 from fastapi.concurrency import run_in_threadpool
+import httpx
 
 
 def read_pdf_text(file: BytesIO):
@@ -28,6 +31,11 @@ def read_docx_text(file: BytesIO):
         text += paragraph.text + '\n'
     return text
 
+async def get_doc_func(doc_id: int, session: AsyncSession):
+    if (doc := await get_document_by_id(doc_id, session)) and not doc:
+        raise HTTPException(404, 'Документа с таким id нету')
+    return doc
+
 
 async def upload_docs_func(docs: List[UploadFile], session: AsyncSession):
     res = []
@@ -44,7 +52,6 @@ async def upload_docs_func(docs: List[UploadFile], session: AsyncSession):
             res.append(await create_docx(doc, session))
     await session.commit()
     return res
-
 
 
 

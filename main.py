@@ -1,9 +1,12 @@
+from sys import prefix
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from config import config
 from routes.document import document_router
+from routes.chat import chat_router
 from db.db_setup import init_db
 import uvicorn
 
@@ -24,6 +27,7 @@ app.add_middleware(
 )
 
 app.include_router(document_router, prefix='/doc', tags=['registration'])
+app.include_router(chat_router, prefix='/chat', tags=['chat'])
 
 
 if __name__ == '__main__':
