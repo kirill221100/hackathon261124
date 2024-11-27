@@ -1,9 +1,6 @@
-from sys import prefix
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-
 from config import config
 from routes.document import document_router
 from routes.chat import chat_router
